@@ -10,46 +10,48 @@
         <title>#{get 'title' /}</title>		
         <link rel="shortcut icon" href="@{'/public/images/favicon.png'}">
 
-	<link rel="stylesheet" href="css/1140.css" type="text/css" media="screen" />
+	<link rel="stylesheet" href="@{'/public/stylesheets/1140.css'}?v=1" type="text/css" media="screen" />
 	
 	<!--[if lte IE 9]>
 	<link rel="stylesheet" href="css/ie.css" type="text/css" media="screen" />
 	<![endif]-->
 	
-	<!-- Type and image presets - NOT ESSENTIAL -->
-	<link rel="stylesheet" href="@{'/public/stylesheets/typeimg.css'}?v=1" type="text/css" media="screen" />
 	<!-- Make minor type adjustments for 1024 monitors -->
 	<link rel="stylesheet" href="@{'/public/stylesheets/smallerscreen.css'}?v=1" media="only screen and (max-width: 1023px)" />
 	<!-- Resets grid for mobile -->
 	<link rel="stylesheet" href="@{'/public/stylesheets/mobile.css'}?v=1" media="handheld, only screen and (max-width: 767px)" />
-	<!-- Put your layout here -->
+	<!--layout -->
 	<link rel="stylesheet" href="@{'/public/stylesheets/main.css'}?v=1" type="text/css" media="screen" />
-	<script src="@{'/public/javascripts//modernizr-1.5.min.js'}"></script>
     </head>
     <body>
-      <div id="container">
-    <header>
+    <div class="container">
+    <div class="row">
+    <div class="header">
    	<ul>
-   	<li><a class="tools" href="@{Admin.index()}">Entrée des artistes</a></li>
-    <li><H1>loveapps</h1></li>
-	<li><a href="@{Application.allPosts}">All articles</a></li>
-	<li><a href="@{Application.showPostWithThisCssClass("short")}">short</a></li>
-	<li><a href="@{Application.showPostWithThisCssClass("medium")}">medium</a></li>
-	<li><a href="@{Application.showPostWithThisCssClass("big")}">big</a></li>
- 	#{list items:models.Tag.findAll(), as:'tag'}
+   		<li><a class="tools sevencol" href="@{Admin.index()}">Entrée des artistes</a></li>
+    	<li class="logo threecol">loveapps</li>
+    </ul>
+    </div>
+    <ul class="nav threecol">
+		<li><a href="@{Application.allPosts}">All articles</a></li>
+		<li><a href="@{Application.showPostWithThisCssClass("short")}">short</a></li>
+		<li><a href="@{Application.showPostWithThisCssClass("medium")}">medium</a></li>
+		<li><a href="@{Application.showPostWithThisCssClass("big")}">big</a></li>
+ 		#{list items:models.Tag.findAll(), as:'tag'}
 		<li><a href="@{Application.listTagged(tag.name)}">${tag}</a>${tag_isLast ? '' : ', '}</li>
-	#{/list}
-
-    </header>
+		#{/list}
+	</ul>
     
-    <div id="main">
+    <div id="main sevencol last">
 			<span class="about">About this blog</span>
             #{doLayout /} 
     </div>
     
-    <footer>
+    <div class="footer">
 		#{include 'footer.html' /}        
-    </footer>
-  </div> <!--! end of #container -->
+    </div>
+    
+    </div>
+  </div>
     </body>
 </html>
