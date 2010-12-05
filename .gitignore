@@ -1,0 +1,8 @@
+tmp
+logs
+.classpath
+.project
+.settings
+eclipse
+test-result
+.DS_Store

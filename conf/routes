@@ -1,0 +1,44 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+# Home page
+GET     /                                       Application.index
+
+# Import Secure routes
+*       /                                       module:secure
+
+# Map static resources from the /app/public folder to the /public path
+GET     /public/                                staticDir:public
+
+GET     /posts/{<[0-9]+>id}             		Application.show
+
+GET     /posts/size/{cssClass}                  Application.showPostWithThisCssClass
+
+GET     /posts/tag/{tag}                    	Application.listTagged 
+
+GET     /posts/all                    			Application.allPosts
+
+POST    /posts/{postId}/comments                Application.postComment
+
+GET     /captcha                                Application.captcha
+
+# Administration
+
+
+GET     /admin/?                                Admin.index
+GET     /admin/myPosts/{id}                 	Admin.form
+GET     /admin/new                          	Admin.form
+POST    /admin/myPosts/{id}                  	Admin.save
+POST    /admin/new                         		Admin.save
+*       /admin                                  module:crud
+
+# RSS
+GET			/all.xml					Application.index(format:'xml')
+
+# Catch all
+*       /{controller}/{action}                  {controller}.{action}
+
+
+
+

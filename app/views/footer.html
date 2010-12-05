@@ -1,0 +1,20 @@
+<p id="footer">
+
+<link rel="alternate" type="application/rss+xml" title="All jobs - RSS 2.0" href="@@{Application.index()}all.xml" >
+<a id="rss" href="@@{Application.index()}all.xml">RSS feed</a><br><br>
+
+            Love apps is the editor of
+            <a href="http://www.proposez-moi.fr.org">proposez-moi.fr</a><br><br><br>
+            
+                    <a href="@{Application.allPosts}">All articles</a>
+
+<a href="@{Application.showPostWithThisCssClass("short")}">short</a>
+<a href="@{Application.showPostWithThisCssClass("medium")}">medium</a>
+<a href="@{Application.showPostWithThisCssClass("big")}">big</a>
+ 
+#{list items:models.Tag.findAll(), as:'tag'}
+
+<a href="@{Application.listTagged(tag.name)}">${tag}</a>${tag_isLast ? '' : ', '}
+
+#{/list}
+</p>

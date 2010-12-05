@@ -1,0 +1,6 @@
+#{extends 'main.html' /}
+#{set title:'allposts' /}
+
+#{list posts, as:'post'}
+	#{display post:post, as:'home' /}
+#{/list}

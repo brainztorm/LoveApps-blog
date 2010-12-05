@@ -1,0 +1,19 @@
+<rss version="2.0">
+    <channel>
+        <title>Play, jobs</title>
+        <description>All jobs</description>
+        <link>@@{Application.index()}</link>
+		
+		#{list items:models.Post.findAll(), as:'post'}
+        <item>
+            <title>${post.title}</title>
+            <description>
+				${post.content}
+			</description>
+            <pubDate>${post.postedAt}</pubDate>
+            <link>@@{Application.show(post.id)}</link>
+        </item>
+		#{/list}
+		
+    </channel>
+</rss>
