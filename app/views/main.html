@@ -30,7 +30,7 @@
 		<link rel="alternate" type="application/rss+xml" title="All jobs - RSS 2.0" href="@@{Application.index()}all.xml" >
 		<a id="rss" class="right" href="@@{Application.index()}all.xml">RSS feed</a>
    		<a class="tools sevencol last right" href="@{Admin.index()}">Entrée des artistes</a>
-    	<h1 class="logo threecol last"><a href="">loveapps</a></h1>
+    	<h1 class="logo threecol last"><a href="">lov<span class="red">ea</span>pps</a></h1>
 		<!-- <p>Love apps is the editor of
         <a href="http://www.proposez-moi.fr.org">proposez-moi.fr</a></p> -->
     </div>
@@ -52,7 +52,7 @@
 					<li><a href="@{Application.showPostWithThisCssClass("medium")}">medium</a></li>
 					<li><a href="@{Application.showPostWithThisCssClass("big")}">big</a></li>
 			 		#{list items:models.Tag.findAll(), as:'tag'}
-					<li><a href="@{Application.listTagged(tag.name)}">${tag}</a>${tag_isLast ? '' : ', '}</li>
+					<li><a href="@{Application.listTagged(tag.name)}">${tag}</a><!--${tag_isLast ? '' : ', '}--></li>
 					#{/list}
 				</ul>
 			<!-- Column 2 end -->
