@@ -27,25 +27,40 @@
     <div class="container">
     <div class="row">
     <div class="header">
-   	<ul>
-   		<li><a class="tools sevencol" href="@{Admin.index()}">Entrée des artistes</a></li>
-    	<li class="logo threecol">loveapps</li>
-    </ul>
+		<link rel="alternate" type="application/rss+xml" title="All jobs - RSS 2.0" href="@@{Application.index()}all.xml" >
+		<a id="rss" class="right" href="@@{Application.index()}all.xml">RSS feed</a>
+   		<a class="tools sevencol last right" href="@{Admin.index()}">Entrée des artistes</a>
+    	<h1 class="logo threecol last"><a href="">loveapps</a></h1>
+		<!-- <p>Love apps is the editor of
+        <a href="http://www.proposez-moi.fr.org">proposez-moi.fr</a></p> -->
     </div>
-    <ul class="nav threecol">
-		<li><a href="@{Application.allPosts}">All articles</a></li>
-		<li><a href="@{Application.showPostWithThisCssClass("short")}">short</a></li>
-		<li><a href="@{Application.showPostWithThisCssClass("medium")}">medium</a></li>
-		<li><a href="@{Application.showPostWithThisCssClass("big")}">big</a></li>
- 		#{list items:models.Tag.findAll(), as:'tag'}
-		<li><a href="@{Application.listTagged(tag.name)}">${tag}</a>${tag_isLast ? '' : ', '}</li>
-		#{/list}
-	</ul>
+
+	<div class="colmask leftmenu">
+		<div class="colleft">
+			<div class="col1">
+				<div class="main">
+						<!-- <span class="about">About this blog</span> -->
+			            #{doLayout /} 
+			    </div>
+			<!-- Column 1 end -->
+			</div>
+			
+			<div class="col2">
+			    <ul class="nav">
+					<li><a href="@{Application.allPosts}">All articles</a></li>
+					<li><a href="@{Application.showPostWithThisCssClass("short")}">short</a></li>
+					<li><a href="@{Application.showPostWithThisCssClass("medium")}">medium</a></li>
+					<li><a href="@{Application.showPostWithThisCssClass("big")}">big</a></li>
+			 		#{list items:models.Tag.findAll(), as:'tag'}
+					<li><a href="@{Application.listTagged(tag.name)}">${tag}</a>${tag_isLast ? '' : ', '}</li>
+					#{/list}
+				</ul>
+			<!-- Column 2 end -->
+			</div>
+		</div>
+	</div>
     
-    <div id="main sevencol last">
-			<span class="about">About this blog</span>
-            #{doLayout /} 
-    </div>
+    
     
     <div class="footer">
 		#{include 'footer.html' /}        
@@ -53,5 +68,6 @@
     
     </div>
   </div>
+
     </body>
 </html>
