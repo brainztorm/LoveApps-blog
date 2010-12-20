@@ -1,10 +1,12 @@
 package models;
  
+import java.io.File;
 import java.util.*;
 import javax.persistence.*;
  
 import play.data.validation.*;
 import play.db.jpa.*;
+import play.libs.Images;
  
 @Entity
 public class Post extends Model {
@@ -80,7 +82,7 @@ public class Post extends Model {
         return title;
     }
     
-    public Post(User author, String title, String content, CssClass cssClass, Picture picture) { 
+    public Post(User author, String title, String content, CssClass cssClass, String picturePath) { 
         this.comments = new ArrayList<Comment>(); 
         this.tags = new TreeSet<Tag>(); 
         this.author = author; 
@@ -88,7 +90,8 @@ public class Post extends Model {
         this.content = content; 
         this.postedAt = new Date(); 
         this.cssClass = cssClass;
-        this.picture = picture;
+        this.picture = new Picture();
+        this.picture.imagePath = picturePath;
     } 
     
 }

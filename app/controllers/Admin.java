@@ -2,9 +2,11 @@ package controllers;
  
 import play.*;
 import play.libs.Files;
+import play.libs.Images;
 import play.mvc.*;
  
 import java.io.File;
+import java.io.IOException;
 import java.util.*;
  
 import models.*;
@@ -33,9 +35,30 @@ public class Admin extends Controller {
         render();
     }
 
-    public static void save(Long id, String title, String content, String tags, String cssClassName, Picture picture) {
+    public static void save(Long id, String title, String content, String tags, String cssClassName, File picture) throws IOException {
+    	//--- saving image ---
+    	notFoundIfNull(picture);
+    
+        int dotPos = picture.getName().lastIndexOf(".");
+        String extension = picture.getName().substring(dotPos);
+        
+        //TODO revoir le nom (id null)
+    	File to = Play.getFile("/public/images/" + "picture_"+id+extension);
+    	
+    	//TODO javscript coté navigateur pour x1,y1,x2,Y2 crop
+    	// see http://groups.google.com/group/play-framework/browse_thread/thread/fb81d19afdfd22e7/9d376535f2a8e431?lnk=gst&q=crop#9d376535f2a8e431
+    	Images.crop(picture, to, 0, 0, 200, 200);
 
-    	picture.save();
+//    	//create new File
+//    	File to = Play.getFile("/public/images/" + "picture_"+id);
+//        try {
+//            Files.copy(picture, to);
+//        } catch(RuntimeException e) {
+//        	
+//        }
+    	System.out.println("------------------>picture url="+picture.getAbsolutePath());
+        picture.delete();
+    	//--- saving image ---
     	
     	Post post = null;
     	
@@ -43,7 +66,7 @@ public class Admin extends Controller {
         if(id == null) {
             // Create post
             User author = User.find("byEmail", Security.connected()).first();
-            post = new Post(author, title, content, cssClass, picture);
+            post = new Post(author, title, content, cssClass, to.getCanonicalPath());
             post.save();
         } else {
             // Retrieve post
@@ -74,7 +97,7 @@ public class Admin extends Controller {
     //TODO a virer
     public static void getPicture(long id) {
         Picture picture = Picture.findById(id);
-        renderBinary(picture.image.get(),picture.toString()+".png");
+        renderBinary(Play.getFile(picture.imagePath),picture.toString()+".png");
     } 
 
 }

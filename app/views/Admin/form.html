@@ -45,11 +45,19 @@
 	</p> 
 	
 	<label>Image :</label>
-	<input type="file" name="picture.image"/>
+	<input type="file" name="picture" id="image_button" onchange="alert('Thanks for clicking me');"/>
 	<br>
 	<br>
     <p>
-        <input type="submit" value="Publish this post to the blog" />
+        <input type="submit" value="Publish this post to the blog"/>
     </p>
     
 #{/form}
+<script>
+$.ready(function() {
+  $('#image_button').onclick( function() {
+    alert("coucou");
+  });
+});
+
+</script> 
