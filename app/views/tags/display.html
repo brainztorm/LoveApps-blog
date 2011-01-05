@@ -18,7 +18,9 @@
         
     </div>
     #{if _as != 'teaser'}
-    iamge=<img src="@{Application.getPicture(_post.id)}">
+    	#{if _as != 'teaser'}
+    	<img src="@{Application.getPicture(_post.id)}">
+    	#{/if}
         <div class="${_post.cssClass.value}">
             ${_post.content.raw().nl2br()}
         </div>

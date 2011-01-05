@@ -1,6 +1,7 @@
 package controllers;
  
 import play.*;
+import play.data.validation.Required;
 import play.libs.Files;
 import play.libs.Images;
 import play.mvc.*;
@@ -35,39 +36,23 @@ public class Admin extends Controller {
         render();
     }
 
-    public static void save(Long id, String title, String content, String tags, String cssClassName, File picture) throws IOException {
-    	//--- saving image ---
-    	notFoundIfNull(picture);
-    
-        int dotPos = picture.getName().lastIndexOf(".");
-        String extension = picture.getName().substring(dotPos);
-        
-        //TODO revoir le nom (id null)
-    	File to = Play.getFile("/public/images/" + "picture_"+id+extension);
+    public static void save(Long id, String title, String content, String tags, 
+    		String cssClassName, File picture) throws IOException {
     	
-    	//TODO javscript coté navigateur pour x1,y1,x2,Y2 crop
-    	// see http://groups.google.com/group/play-framework/browse_thread/thread/fb81d19afdfd22e7/9d376535f2a8e431?lnk=gst&q=crop#9d376535f2a8e431
-    	Images.crop(picture, to, 0, 0, 200, 200);
-
-//    	//create new File
-//    	File to = Play.getFile("/public/images/" + "picture_"+id);
-//        try {
-//            Files.copy(picture, to);
-//        } catch(RuntimeException e) {
-//        	
-//        }
-    	System.out.println("------------------>picture url="+picture.getAbsolutePath());
-        picture.delete();
-    	//--- saving image ---
+    	String imagePath = null;
+    	
+    	if(picture!=null){
+    		imagePath = saveImage(picture,title);
+    	}
     	
     	Post post = null;
     	
         CssClass cssClass = CssClass.find("name = ?",cssClassName).first();
+        
         if(id == null) {
             // Create post
             User author = User.find("byEmail", Security.connected()).first();
-            post = new Post(author, title, content, cssClass, to.getCanonicalPath());
-            post.save();
+            post = new Post(author, title, content, cssClass, imagePath);
         } else {
             // Retrieve post
             post = Post.findById(id);
@@ -76,6 +61,7 @@ public class Admin extends Controller {
             post.content = content;
             post.tags.clear();
             post.cssClass = cssClass;
+            post.picturePath = imagePath;
         }
         // Set tags list
         for(String tag : tags.split("\\s+")) {
@@ -94,10 +80,29 @@ public class Admin extends Controller {
         index();
     }
     
-    //TODO a virer
-    public static void getPicture(long id) {
-        Picture picture = Picture.findById(id);
-        renderBinary(Play.getFile(picture.imagePath),picture.toString()+".png");
-    } 
-
+    private static String saveImage(File picture,String title){
+    	//--- saving image ---
+        int dotPos = picture.getName().lastIndexOf(".");
+        String extension = picture.getName().substring(dotPos);
+        
+    	//TODO javscript coté navigateur pour x1,y1,x2,Y2 crop
+    	// see http://groups.google.com/group/play-framework/browse_thread/thread/fb81d19afdfd22e7/9d376535f2a8e431?lnk=gst&q=crop#9d376535f2a8e431
+    	//Images.crop(picture, to, 0, 0, 200, 200);
+        
+    	//create new File
+		File to = Play.getFile("/public/images/" + "picture_"+title.replace(" ","")+extension);
+        Files.copy(picture, to);
+        picture.delete();
+        String imagePath=null;
+        
+        try {
+			imagePath = to.getCanonicalPath();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        
+		return imagePath;
+    }
+    
 }

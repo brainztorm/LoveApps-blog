@@ -7,12 +7,16 @@
     <h3>Edit, <span>this post</span></h3>
 #{/else}
  
-#{form @save(post?.id), method:'POST', enctype:'multipart/form-data'}
+#{form @Admin.save(post?.id), method:'POST', enctype:'multipart/form-data'}
  
     #{ifErrors}
-        <p class="error">
-            Please correct these errors.
-        </p>
+        <div class="error">
+            Please correct these errors :
+
+        #{errors}
+       		<li>${error}</li>
+   		#{/errors}
+        </div>
     #{/ifErrors}
      
     <p>
@@ -45,7 +49,10 @@
 	</p> 
 	
 	<label>Image :</label>
-	<input type="file" name="picture" id="image_button" onchange="alert('Thanks for clicking me');"/>
+	#{if post}
+	<img src="@{Application.getPicture(post.id)}">
+	#{/if}
+	<input type="file" name="picture" id="image_button"/>
 	<br>
 	<br>
     <p>
@@ -53,11 +60,3 @@
     </p>
     
 #{/form}
-<script>
-$.ready(function() {
-  $('#image_button').onclick( function() {
-    alert("coucou");
-  });
-});
-
-</script> 

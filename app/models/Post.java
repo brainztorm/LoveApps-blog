@@ -11,16 +11,17 @@ import play.libs.Images;
 @Entity
 public class Post extends Model {
  
-	public Picture picture;
+	@Required(message="add a picture to your post")
+	public String picturePath;
 	
-	@Required
+	@Required(message="add a title to your post")
     public String title;
 
 	@Required
 	public Date postedAt;
     
     @Lob
-    @Required
+    @Required(message="add content to your post")
     @MaxSize(10000)
     public String content;
     
@@ -35,6 +36,7 @@ public class Post extends Model {
     @OneToMany(mappedBy="post", cascade=CascadeType.ALL)
     public List<Comment> comments;
 
+    @Required(message="add one tag at least to your post")
     @ManyToMany(cascade=CascadeType.PERSIST) 
     public Set<Tag> tags; 
     
@@ -90,8 +92,7 @@ public class Post extends Model {
         this.content = content; 
         this.postedAt = new Date(); 
         this.cssClass = cssClass;
-        this.picture = new Picture();
-        this.picture.imagePath = picturePath;
+        this.picturePath = picturePath;
     } 
     
 }

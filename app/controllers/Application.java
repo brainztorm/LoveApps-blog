@@ -81,8 +81,9 @@ public class Application extends Controller {
     
     public static void getPicture(long id) {
     	Post post = Post.findById(id);
-    	System.out.println("post.picture.image.get()="+post.picture.imagePath);
-    	//TODO essayer sans le new File()
-        renderBinary(new File(post.picture.imagePath));
+    	//TODO is it possible without create a new File() object ?
+        if(post.picturePath!=null){
+        	renderBinary(new File(post.picturePath));
+        }
     } 
 }
